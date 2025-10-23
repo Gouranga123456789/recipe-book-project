@@ -1,0 +1,473 @@
+/* --- Google Font Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #007AFF;     
+    --primary-color-dark: #0056B3;  
+    --secondary-color: #5A67D8;  
+    --secondary-color-dark: #434190;
+    
+    --text-color: #24292E;        
+    --text-color-light: #586069;  
+    --bg-color: #F6F8FA;          
+    --card-bg: #FFFFFF;           
+    --border-color: #E1E4E8;      
+    --shadow: 0 3px 6px rgba(149, 157, 165, 0.15);
+    --shadow-hover: 0 6px 12px rgba(149, 157, 165, 0.2);
+    
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Header & Search --- */
+header {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    padding: 15px 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    cursor: pointer; /* NEW: Makes it look clickable */
+    transition: color 0.3s ease; /* NEW: Add hover effect */
+}
+
+/* NEW: Added hover state for the title */
+header h1:hover {
+    color: var(--primary-color-dark);
+}
+
+.search-container {
+    width: 40%;
+    max-width: 450px;
+    display: flex; /* Aligns input and button */
+    align-items: center;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+    border-right: none; /* Remove right border */
+}
+
+#searchInput:focus {
+    outline: none;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+    z-index: 2; /* Bring to front on focus */
+    position: relative; /* Needed for z-index */
+}
+
+#searchBtn {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    cursor: pointer;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    border-left: none;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+#searchBtn svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-color-light);
+    transition: stroke var(--transition-speed);
+}
+
+#searchBtn:hover {
+    background-color: #e8e8e8;
+}
+
+#searchBtn:hover svg {
+    stroke: var(--primary-color);
+}
+
+#searchInput:focus + #searchBtn {
+    border-color: var(--primary-color);
+    z-index: 2;
+    position: relative;
+}
+
+/* --- Add Recipe Form --- */
+.add-recipe-section {
+    margin-bottom: 30px;
+}
+
+#toggleFormBtn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform 0.2s ease;
+}
+
+#toggleFormBtn:hover {
+    background-color: var(--primary-color-dark);
+    transform: scale(1.03);
+}
+
+#addRecipeForm {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    max-height: 1000px;
+    opacity: 1;
+    transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in, 
+                padding 0.5s ease-in-out, margin 0.5s ease-in-out,
+                box-shadow var(--transition-speed);
+}
+
+#addRecipeForm.hidden {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    box-shadow: none;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color-light);
+    transition: color var(--transition-speed);
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box; 
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.form-group:focus-within label {
+    color: var(--primary-color);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+#addRecipeForm button[type="submit"] {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform 0.2s ease;
+}
+
+#addRecipeForm button[type="submit"]:hover {
+    background-color: var(--secondary-color-dark);
+    transform: translateY(-2px);
+}
+
+/* --- Recipe List & Cards --- */
+.recipe-list-section h2 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+#recipeListContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.no-results-msg {
+    grid-column: 1 / -1; /* Span all columns */
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-color-light);
+    padding: 40px 0;
+}
+
+.recipe-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.recipe-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.recipe-card:hover img {
+    transform: scale(1.05);
+}
+
+.recipe-card-content {
+    padding: 20px;
+}
+
+.recipe-card-content h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.recipe-card-content p {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* --- Modal Styling --- */
+@keyframes fadeInScaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeInScaleUp 0.4s ease-out forwards;
+}
+
+.modal-overlay.hidden .modal-content {
+    animation: none;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.close-modal svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-color-light);
+    transition: stroke 0.2s ease;
+}
+
+.close-modal:hover {
+    background-color: #e8e8e8;
+    transform: rotate(90deg);
+}
+
+.close-modal:hover svg {
+    stroke: var(--primary-color);
+}
+
+#modalImage {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+#modalName {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+#modalIngredients, #modalSteps {
+    white-space: pre-wrap; 
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    border-left: 5px solid var(--primary-color);
+    margin-top: 10px;
+    color: var(--text-color-light);
+}
+
+#modalIngredients {
+    border-left-color: var(--secondary-color);
+}
+
+/* --- Utility --- */
+.hidden {
+    display: none; 
+}
+
+/* --- Accessibility --- */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8a8a8;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .search-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .close-modal {
+        top: 10px;
+        right: 10px;
+    }
+    
+    header h1 {
+        font-size: 1.6rem;
+    }
+}
