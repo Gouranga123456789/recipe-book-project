@@ -1,10 +1,9 @@
-/* --- Google Font Import --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root {
     --primary-color: #007AFF;     
     --primary-color-dark: #0056B3;  
-    --secondary-color: #5A67D8;  
+    --secondary-color: #5A67D8;   
     --secondary-color-dark: #434190;
     
     --text-color: #24292E;        
@@ -60,11 +59,10 @@ header h1 {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--primary-color);
-    cursor: pointer; /* NEW: Makes it look clickable */
-    transition: color 0.3s ease; /* NEW: Add hover effect */
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-/* NEW: Added hover state for the title */
 header h1:hover {
     color: var(--primary-color-dark);
 }
@@ -72,7 +70,7 @@ header h1:hover {
 .search-container {
     width: 40%;
     max-width: 450px;
-    display: flex; /* Aligns input and button */
+    display: flex;
     align-items: center;
 }
 
@@ -86,7 +84,7 @@ header h1:hover {
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-    border-right: none; /* Remove right border */
+    border-right: none;
 }
 
 #searchInput:focus {
@@ -95,8 +93,8 @@ header h1:hover {
     color: var(--text-color);
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
-    z-index: 2; /* Bring to front on focus */
-    position: relative; /* Needed for z-index */
+    z-index: 2;
+    position: relative;
 }
 
 #searchBtn {
@@ -130,7 +128,6 @@ header h1:hover {
     position: relative;
 }
 
-/* --- Add Recipe Form --- */
 .add-recipe-section {
     margin-bottom: 30px;
 }
@@ -231,7 +228,6 @@ header h1:hover {
     transform: translateY(-2px);
 }
 
-/* --- Recipe List & Cards --- */
 .recipe-list-section h2 {
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 10px;
@@ -245,7 +241,7 @@ header h1:hover {
 }
 
 .no-results-msg {
-    grid-column: 1 / -1; /* Span all columns */
+    grid-column: 1 / -1; 
     text-align: center;
     font-size: 1.2rem;
     color: var(--text-color-light);
@@ -269,8 +265,9 @@ header h1:hover {
 
 .recipe-card img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 150px; 
+    object-fit: cover; 
+    object-position: center; 
     transition: transform 0.4s ease;
 }
 
@@ -292,12 +289,12 @@ header h1:hover {
     font-size: 0.9rem;
     color: var(--text-color-light);
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 3; 
+    line-clamp: 3;       
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* --- Modal Styling --- */
 @keyframes fadeInScaleUp {
     from {
         opacity: 0;
@@ -385,7 +382,8 @@ header h1:hover {
 #modalImage {
     width: 100%;
     height: 300px;
-    object-fit: cover;
+    object-fit: contain; 
+    background-color: #eaeff5; 
     border-radius: var(--border-radius);
     margin-bottom: 20px;
 }
@@ -409,12 +407,10 @@ header h1:hover {
     border-left-color: var(--secondary-color);
 }
 
-/* --- Utility --- */
 .hidden {
     display: none; 
 }
 
-/* --- Accessibility --- */
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -429,7 +425,6 @@ header h1:hover {
     }
 }
 
-/* --- Custom Scrollbar --- */
 ::-webkit-scrollbar {
     width: 8px;
     background-color: var(--bg-color);
@@ -444,7 +439,6 @@ header h1:hover {
     background-color: #a8a8a8;
 }
 
-/* --- Responsive --- */
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;
