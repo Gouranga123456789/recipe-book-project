@@ -1,22 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- DOM Elements ---
-    const homeBtn = document.getElementById("homeBtn"); // NEW
+    const homeBtn = document.getElementById("homeBtn");
     const recipeForm = document.getElementById("addRecipeForm");
     const recipeListContainer = document.getElementById("recipeListContainer");
     const toggleFormBtn = document.getElementById("toggleFormBtn");
 
-    // Search Elements
     const searchInput = document.getElementById("searchInput");
     const searchBtn = document.getElementById("searchBtn"); 
 
-    // Form Inputs
     const recipeNameInput = document.getElementById("recipeName");
     const recipeIngredientsInput = document.getElementById("recipeIngredients");
     const recipeStepsInput = document.getElementById("recipeSteps");
     const recipeImageInput = document.getElementById("recipeImage");
 
-    // Modal Elements
     const modalOverlay = document.getElementById("recipeModal");
     const closeModalBtn = document.querySelector(".close-modal");
     const modalName = document.getElementById("modalName");
@@ -24,20 +20,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalIngredients = document.getElementById("modalIngredients");
     const modalSteps = document.getElementById("modalSteps");
 
-    // --- State ---
     let recipes = getRecipesFromStorage();
 
-    // --- Storage Functions ---
     function getRecipesFromStorage() {
-        const recipes = localStorage.getItem("recipes");
-        return recipes ? JSON.parse(recipes) : [];
+        try {
+            const recipes = localStorage.getItem("recipes");
+            return recipes ? JSON.parse(recipes) : [];
+        } catch (error) {
+            console.error("Error loading recipes", error);
+            return [];
+        }
     }
 
     function saveRecipesToStorage(recipes) {
-        localStorage.setItem("recipes", JSON.stringify(recipes));
+        try {
+            localStorage.setItem("recipes", JSON.stringify(recipes));
+            return true;
+        } catch (error) {
+            if (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+                alert("Storage is full! This browser allows only ~5MB of local storage. Please delete some recipes or use smaller images.");
+            } else {
+                alert("An error occurred while saving.");
+            }
+            console.error("Storage failed:", error);
+            return false; 
+        }
     }
-
-    // --- Render Functions ---
     function renderRecipes(recipesToRender = recipes, searchTerm = "") {
         recipeListContainer.innerHTML = ""; 
 
@@ -70,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- Modal Functions ---
     function openRecipeModal(recipe) {
         modalName.textContent = recipe.name;
         modalImage.src = recipe.image;
@@ -89,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
         modalOverlay.classList.add("hidden");
     }
 
-    // --- Event Handlers ---
     
     function handleAddRecipe(e) {
         e.preventDefault();
@@ -104,6 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const maxSizeInBytes = 512000; 
+
+        if (imageFile.size > maxSizeInBytes) {
+            alert("The selected image is too large. Please select an image smaller than 500KB to save storage space.");
+            return; 
+        }
+
         const reader = new FileReader();
         reader.onload = function(event) {
             const newRecipe = {
@@ -114,15 +127,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 image: event.target.result
             };
 
-            recipes.push(newRecipe);
-            saveRecipesToStorage(recipes);
-            
-            searchInput.value = "";
-            renderRecipes(recipes);
+            const saveSuccessful = saveRecipesToStorage([...recipes, newRecipe]);
 
-            recipeForm.reset();
-            recipeForm.classList.add("hidden");
-            toggleFormBtn.textContent = "Add New Recipe";
+            if (saveSuccessful) {
+                recipes.push(newRecipe);
+                searchInput.value = "";
+                renderRecipes(recipes);
+
+                recipeForm.reset();
+                recipeForm.classList.add("hidden");
+                toggleFormBtn.textContent = "Add New Recipe";
+            } else {
+                console.log("Save failed, keeping form open for user correction.");
+            }
         };
         
         reader.readAsDataURL(imageFile);
@@ -140,8 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function handleGoHome() {
-        searchInput.value = ""; // Clear the search bar
-        renderRecipes(recipes); // Render the full list of recipes
+        searchInput.value = ""; 
+        renderRecipes(recipes); 
     }
 
     function toggleRecipeForm() {
@@ -149,8 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleFormBtn.textContent = isHidden ? "Add New Recipe" : "Cancel";
     }
 
-    // --- Event Listeners ---
-    homeBtn.addEventListener("click", handleGoHome); // NEW
+    homeBtn.addEventListener("click", handleGoHome);
     recipeForm.addEventListener("submit", handleAddRecipe);
     toggleFormBtn.addEventListener("click", toggleRecipeForm);
     
@@ -162,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Modal close listeners
     closeModalBtn.addEventListener("click", closeRecipeModal);
     modalOverlay.addEventListener("click", (e) => {
         if (e.target === modalOverlay) {
@@ -170,7 +185,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- Initial Load ---
-    renderRecipes(recipes); // Renders all recipes on startup
-
+    renderRecipes(recipes); 
 });
